@@ -112,25 +112,39 @@
 							<li class="descp-main__list-item"><span>email</span> — включит валидацию на ввод корретного <span>E-mail с символом @</span>.</li>
 						</ul>
 						<div class="descp-main__text">Пример</div>
+
+					</div>
+
+					<div class="descp-main__size-m">
 						<div class="descp-main__img">
 							<img src="img/01.png" loading="lazy" alt="Картинка">
 						</div>
+					</div>
+
+					<div class="main__descp descp-main">
+
 						<div class="descp-main__text">
-							Если элемент заполнен не верно, к нему, а также к его родителю
-							добавится класс <span>_form-error</span>. Если мы хотим дополнительно вывести
-							произвольный текст ошибки, нам следует указать его в атрибуте dataerror и добавить к полю:
+							Если элемент заполнен не верно, к нему, а также к его родителю добавится класс <span>_form-error</span>. 
+							Так же выведется текст ошибки: 
+						</div>
+						<ul class="descp-main__list">
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required="name"</span> - "Минимальная длинна <span>3</span> символа"</li>
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required="tel"</span> - "Минимальная длинна <span>10</span> символов"</li>
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required="email"</span> - "Неверный Email"</li>
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required="checkbox"</span> - Предполагается скрывать вывод ошибки и стилизовать обводку чек-бокса</li>
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required="text"</span> - "Заполните поле"</li>
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required</span> - "Заполните поле". При условии, что в поле добавлен атрибут <span>data-error="Заполните поле"</span></li>
+							<li class="descp-main__list-item">Для полей с атрибутом <span>data-required="text"</span> - Установлено ограничение в <span>400px</span></li>
+						</ul>
+						<div class="descp-main__text">
+							Тексты ошибок выведутся при условии, что в поля добавлен атрибут <span>data-error="Заполните поле"</span>
 						</div>
 						<div class="descp-main__text">
-							Теперь, при возникновении ошибки валидации, под элементом
-							добавится объект с классом <span>form__error</span> содержащий ваш текст ошибки.
-						</div>
-						<div class="descp-main__text">
-							Функционал работы с полями удалит классы ошибок и
-							объект с классом <span>form__error</span> при получении полем фокуса.
+							Так же функционал работы с полями удалит классы ошибок и объект с классом <span>form__error</span> при получении полем фокуса.
 						</div>
 					</div>
 
-					
+				</div>
 
 					<!-- <pre>
 						<code class="javascript">
