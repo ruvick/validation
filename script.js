@@ -1,0 +1,197 @@
+document.addEventListener('DOMContentLoaded', function() {
+	formFieldsInit();
+	formSubmit(true);
+});
+
+function formFieldsInit() {
+	document.body.addEventListener("focusin", function (e) {
+		const targetElement = e.target;
+		if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
+			if (targetElement.dataset.placeholder) {
+				targetElement.placeholder = '';
+			}
+			targetElement.classList.add('_form-focus');
+			targetElement.parentElement.classList.add('_form-focus');
+			formValidate.removeError(targetElement);
+		}
+	});
+	document.body.addEventListener("focusout", function (e) {
+		const targetElement = e.target;
+		if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
+			if (targetElement.dataset.placeholder) {
+				targetElement.placeholder = targetElement.dataset.placeholder;
+			}
+			targetElement.classList.remove('_form-focus');
+			targetElement.parentElement.classList.remove('_form-focus');
+			targetElement.parentElement.classList.add('_check-focus');
+
+			if (targetElement.hasAttribute('data-validate')) {
+				formValidate.validateInput(targetElement);
+			}
+		}
+	});
+}
+
+let formValidate = {
+	getErrors(form) {
+		let error = 0;
+		let formRequiredItems = form.querySelectorAll('*[data-required]');
+		if (formRequiredItems.length) {
+			formRequiredItems.forEach(formRequiredItem => {
+				if ((formRequiredItem.offsetParent !== null || formRequiredItem.tagName === "SELECT") && !formRequiredItem.disabled) {
+					error += this.validateInput(formRequiredItem);
+				}
+			});
+		}
+		return error;
+	},
+	validateInput(formRequiredItem) {
+		let error = 0;
+		if (formRequiredItem.dataset.required === "email") {
+			formRequiredItem.value = formRequiredItem.value.replace(" ", "");
+			if (this.emailTest(formRequiredItem)) {
+				this.addError(formRequiredItem);
+				error++;
+			} else {
+				this.removeError(formRequiredItem);
+			}
+		} else if (formRequiredItem.dataset.required === "name") {
+			formRequiredItem.value = formRequiredItem.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
+			if (formRequiredItem.value.trim().length < 3) {
+				this.addError(formRequiredItem);
+				error++;
+				formRequiredItem.parentElement.querySelector('.form__error').innerHTML = "Минимальная длинна 4 символа";
+			} else {
+				this.removeError(formRequiredItem);
+			}
+		} else if (formRequiredItem.dataset.required === "tel") {
+			if (formRequiredItem.value.trim().length < 10) {
+				this.addError(formRequiredItem);
+				error++;
+				formRequiredItem.parentElement.querySelector('.form__error').innerHTML = "Минимальная длинна 10 символов";
+			} else {
+				this.removeError(formRequiredItem);
+			}
+		} else if (formRequiredItem.type === "checkbox" && !formRequiredItem.checked) {
+			this.addError(formRequiredItem);
+			error++;
+		} else {
+			if (!formRequiredItem.value.trim()) {
+				this.addError(formRequiredItem);
+				error++;
+			} else {
+				this.removeError(formRequiredItem);
+			}
+		}
+		return error;
+	},
+	addError(formRequiredItem) {
+		formRequiredItem.classList.add('_form-error');
+		formRequiredItem.parentElement.classList.add('_form-error');
+		formRequiredItem.parentElement.classList.remove('_check-focus');
+		let inputError = formRequiredItem.parentElement.querySelector('.form__error');
+		if (inputError) formRequiredItem.parentElement.removeChild(inputError);
+		if (formRequiredItem.dataset.error) {
+			formRequiredItem.parentElement.insertAdjacentHTML('beforeend', `<span class="form__error">${formRequiredItem.dataset.error}</span>`);
+		}
+	},
+	removeError(formRequiredItem) {
+		formRequiredItem.classList.remove('_form-error');
+		formRequiredItem.parentElement.classList.remove('_form-error');
+		if (formRequiredItem.parentElement.querySelector('.form__error')) {
+			formRequiredItem.parentElement.removeChild(formRequiredItem.parentElement.querySelector('.form__error'));
+		}
+	},
+	formClean(form) {
+		form.reset();
+		setTimeout(() => {
+			let inputs = form.querySelectorAll('input,textarea');
+			for (let index = 0; index < inputs.length; index++) {
+				const el = inputs[index];
+				el.parentElement.classList.remove('_form-focus');
+				el.classList.remove('_form-focus');
+				formValidate.removeError(el);
+				el.value = el.dataset.placeholder;
+			}
+			let checkboxes = form.querySelectorAll('.checkbox__input');
+			if (checkboxes.length > 0) {
+				for (let index = 0; index < checkboxes.length; index++) {
+					const checkbox = checkboxes[index];
+					checkbox.checked = false;
+				}
+			}
+		}, 0);
+	},
+	emailTest(formRequiredItem) {
+		return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(formRequiredItem.value);
+	}
+}
+
+document.addEventListener('input', function (e) {
+	const input = e.target;
+	if (input.dataset.required === "name") {
+		input.value = input.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
+	}
+	if (input.value.length > 50) {
+		input.value = input.value.slice(0, 50);
+	}
+});
+
+function formSubmit(validate) {
+	const forms = document.forms;
+	if (forms.length) {
+		for (const form of forms) {
+			form.addEventListener('submit', function (e) {
+				const form = e.target;
+				formSubmitAction(form, e);
+			});
+			form.addEventListener('reset', function (e) {
+				const form = e.target;
+				formValidate.formClean(form);
+			});
+		}
+	}
+	async function formSubmitAction(form, e) {
+		const error = validate ? formValidate.getErrors(form) : 0;
+		if (error === 0) {
+			const popupMessage = form.dataset.popupMessage;
+			const ajax = form.hasAttribute('data-ajax');
+			if (ajax) {
+				e.preventDefault();
+				const formAction = form.getAttribute('action') ? form.getAttribute('action').trim() : '#';
+				const formMethod = form.getAttribute('method') ? form.getAttribute('method').trim() : 'GET';
+				const formData = new FormData(form);
+
+				form.classList.add('_sending');
+				const response = await fetch(formAction, {
+					method: formMethod,
+					body: formData
+				});
+				if (response.ok) {
+					let responseResult = await response.json();
+					form.classList.remove('_sending');
+					if (popupMessage) {
+						// Implement popup logic here
+					}
+					formValidate.formClean(form);
+				} else {
+					alert("Ошибка");
+					form.classList.remove('_sending');
+				}
+			}
+			if (form.hasAttribute('data-dev')) {
+				e.preventDefault();
+				if (popupMessage) {
+					// Implement popup logic here
+				}
+				formValidate.formClean(form);
+			}
+		} else {
+			e.preventDefault();
+			const formError = form.querySelector('._form-error');
+			if (formError && form.hasAttribute('data-goto-error')) {
+				// Implement gotoBlock logic here
+			}
+		}
+	}
+}

@@ -1,0 +1,182 @@
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+input {
+	width: 100%;
+	background: transparent;
+}
+
+textarea.input {
+	resize: none;
+	padding: 0.3125rem 0.625rem;
+	width: 100%;
+}
+
+/* // Описываем focus label, подписи поля или блок
+// .form__line._focus .form__label {
+// 	background: red;
+// }
+
+// // Описываем ошибку label, подписи поля или блок
+// .form__line._error .form__label {
+// 	color: red;
+// } */
+
+/* Стилизация placeholder  */
+::-webkit-input-placeholder {
+	transition: all 0.3s ease 0s;
+	color: rgba(2, 0, 32, 0.3);
+}
+
+::-moz-placeholder {
+	transition: all 0.3s ease 0s;
+	color: rgba(2, 0, 32, 0.3);
+}
+
+/* Firefox 19+ */
+:-moz-placeholder {
+	transition: all 0.3s ease 0s;
+	color: rgba(2, 0, 32, 0.3);
+}
+
+/* Firefox 18- */
+:-ms-input-placeholder {
+	transition: all 0.3s ease 0s;
+	color: rgba(2, 0, 32, 0.3);
+}
+
+/* Убираем стрелки у цифрового инпута */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	/* display: none; <- Crashes Chrome on hover */
+	-webkit-appearance: none;
+	margin: 0;
+	/* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=radio] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	left: 0;
+	top: 0;
+	visibility: hidden;
+}
+/* //======================================================================================================================================================== */
+
+.field {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+ }
+
+.field__input {
+	display: block;
+	margin: 0;
+	padding: 0px 2.4375rem 0 0.9375rem;
+	color: inherit;
+	width: 100%;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: inherit;
+	border: none;
+	color: #000;
+	transition: all 0.3s ease 0s;
+	height: 3.125rem;
+	border-radius: 0.1875rem;
+	background: rgba(2, 0, 32, 0.03);
+ }
+ 
+ .field__label {
+	color: #65657b;
+	left: 1.25rem;
+	line-height: 0.875rem;
+	pointer-events: none;
+	position: absolute;
+	transform-origin: 0 50%;
+	transition: transform 200ms, color 200ms;
+	top: 1.25rem;
+	span {
+		color: red;
+	}
+ }
+ 
+ .field__input:focus ~ .cut,
+ .field__input:not(:placeholder-shown) ~ .cut {
+	transform: translateY(0.5rem);
+ }
+
+ .field__input:focus ~ .field__label,
+ .field__input:not(:placeholder-shown) ~ .field__label {
+	transform: translateY(-0.9375rem) translateX(-0.3125rem) scale(0.65);
+ }
+ 
+ .field__input:not(:placeholder-shown) ~ .field__label {
+	/* // color: #808097; */
+ }
+ 
+ .field__input:focus ~ .field__label {
+	/* // color: #dc2f55; */
+ }
+
+ /* Validation ======================================================================================================================== */
+
+.field._form-error .field__input {
+	border: 0.0625rem solid red;
+}
+ /* =================================================================================================================================== */
+ .cut {
+	position: absolute;
+	top: -0.1875rem;
+	left: 1.25rem;
+	transform: translateY(0);
+	transition: transform 200ms;
+ }
+ 
+ .cut-short {
+	width: 3.125rem;
+ }
+
+ /* .Input .input__viewpass {
+	position: absolute;
+	right: 0.8125rem;
+	top: 50%;
+	transform: translate(0, -50%);
+	color: rgba(2, 0, 32, 0.3);
+	font-size: 1.25rem;
+	background: transparent;
+}
+
+.Input._form-error {
+	.Input__check {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+.Input__check {
+	position: absolute;
+	right: 0.9375rem;
+	top: 50%;
+	transform: translate(0, -50%);
+	color: rgba(0, 191, 54, 1);
+	font-size: 1rem;
+	background: transparent;
+	opacity: 0;
+	visibility: hidden;
+}
+
+._check-focus .Input__check {
+	opacity: 1;
+	visibility: visible;
+} */
+ 
+
+ 
+
