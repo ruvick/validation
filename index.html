@@ -8,6 +8,10 @@
 		<link rel="stylesheet" href="style.css">
 		<link rel="shortcut icon" href="img/favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+		<script>hljs.highlightAll();</script>
 	</head>
 <body> 
 
@@ -32,27 +36,31 @@
 							<div class="form__line">
 
 								<div class="form__field field">
-									<input id="input" class="field__input" name="form[]" autocomplete="off" type="name" placeholder=" " data-error="Заполните поле" data-required="name" data-validate="">
+									<input id="input" class="field__input" name="form[]" autocomplete="off" type="name" placeholder=" " 
+										data-error="Заполните поле" data-required="name" data-validate>
 									<label for="input" class="field__label">Имя <span>*</span></label>
 								</div>
 
 								<div class="form__field field">
-									<input id="input" class="field__input" name="form[]" autocomplete="off" type="name" placeholder=" " data-error="Заполните поле" data-required="name" data-validate="">
+									<input id="input" class="field__input" name="form[]" autocomplete="off" type="name" placeholder=" " 
+									data-error="Заполните поле" data-required="name" data-validate>
 									<label for="input" class="field__label">Фамилия <span>*</span></label>
 								</div>
 
 								<div class="form__field field">
-									<input id="input" class="field__input" name="tel" autocomplete="off" type="number" placeholder=" " data-error="Заполните поле" data-required="tel" data-validate>
+									<input id="input" class="field__input" name="tel" autocomplete="off" type="number" placeholder=" " 
+									data-error="Заполните поле" data-required="tel" data-validate>
 									<label for="input" class="field__label">Телефон <span>*</span></label>
 								</div>
 
 								<div class="form__field field">
-									<input id="input" class="field__input" name="email" autocomplete="off" type="text" placeholder=" " data-error="Неверный Email" data-required="email" data-validate>
+									<input id="input" class="field__input" name="email" autocomplete="off" type="text" placeholder=" " 
+									data-error="Неверный Email" data-required="email" data-validate>
 									<label for="input" class="field__label">Email <span>*</span></label>
 								</div>
 
 								<label for="check-sd" class="form__field checkbox">
-									<input id="check-sd" data-error="Ошибка" class="checkbox__input" type="checkbox" value="1" name="form[]" data-required="checkbox" data-validate="">
+									<input id="check-sd" data-error="Ошибка" class="checkbox__input" type="checkbox" value="1" name="form[]" data-required="checkbox">
 									<span class="checkbox__text"><span>Соглашаюсь на обработку
 											<a href="">персональных данных</a></span></span>
 								</label>
@@ -63,6 +71,61 @@
 						</form>
 
 					</div>
+
+					<div class="main__descp descp-main">
+						<div class="descp-main__title">Работа с полями форм</div>
+						<div class="descp-main__text">Работа с полями форм подразумевает под собой следующий функционал:</div>
+						<ol class="descp-main__list">
+							<li class="descp-main__list-item">Активный placeholder при фокусе</li>
+							<li class="descp-main__list-item">Добавление классов полю и его родителю при фокусе</li>
+							<li class="descp-main__list-item">Возможность моментальной валидации поля при потере фокуса</li>
+							<li class="descp-main__list-item">Ограничение по колличеству символов</li>
+							<li class="descp-main__list-item">Валидация по регулярному выражению для полей с типом name</li>
+							<li class="descp-main__list-item">Валидация по регулярному выражению для полей с типом телефон</li>
+							<li class="descp-main__list-item">Валидация по регулярному выражению для полей с типом email</li>
+						</ol>
+					</div>
+
+					<div class="main__descp descp-main">
+						<div class="descp-main__title">Валидация элементов форм</div>
+						<div class="descp-main__text">
+							Для того чтобы скрипт начал вызывать функционал валидации поля в
+							момент потери им фокуса, следует добавить полю атрибут <span>data-validate</span>.
+							Стоит добавить, что функционал работы с полями форм также удалит
+							ошибку добавленную к полю валидатором при получении им фокуса
+						</div>
+						<div class="descp-main__text">
+							Для того чтобы элемент формы начал проходить валидацию, ему
+							следует добавить атрибут <span>data-required</span>. Теперь при отправке формы
+							(если включена валидация), а также если элементу добавлен атрибут
+							<span>data-validate</span>, он будет проверяться на предмет заполениния.
+						</div>
+						<div class="descp-main__text">
+							Для того чтобы включить особые правила валидации поля, атрибуту <span>data-required</span>
+							следует добавить одно из значений:
+						</div>
+						<ul class="descp-main__list">
+							<li class="descp-main__list-item"><span>name</span> — включит валидацию на ввод корретного ввода имени.
+								Поле ограничено по колличеству символов, не менее <span>3х и не более 50</span>. В поле невозможен ввод цифровых значений.
+							</li>
+							<li class="descp-main__list-item"><span>tel</span> — включит валидацию на ввод цифровых значений, <span>не менее 10 символов</span>.</li>
+							<li class="descp-main__list-item"><span>email</span> — включит валидацию на ввод корретного <span>E-mail с символом @</span>.</li>
+						</ul>
+						<div class="descp-main__text">Пример</div>
+						<div class="descp-main__img">
+							<img src="img/01.png" loading="lazy" alt="Картинка">
+						</div>
+					</div>
+
+					
+
+					<!-- <pre>
+						<code class="javascript">
+						function helloWorld() {
+								console.log('Hello, world!');
+						}
+						</code>
+					</pre> -->
 					
 				</div>
 			</section>

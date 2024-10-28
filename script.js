@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-	formFieldsInit();
-	formSubmit(true);
-});
+		formFieldsInit();
+		formSubmit(true);
+	});
 
 function formFieldsInit() {
 	document.body.addEventListener("focusin", function (e) {
