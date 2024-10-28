@@ -10,7 +10,9 @@
 	box-sizing: border-box;
 }
 :focus,
+:focus-visible,
 :active {
+	outline: none;
 }
 a:focus,
 a:active {
@@ -105,10 +107,20 @@ h6 {
 .main__title:not(:last-child){
 	margin-bottom: 2.1875rem;
 }
-.main__form {
+.main__inner {
 	max-width: 23.75rem;
 	width: 100%;
 	margin: 0 auto;
+}
+.main__demo {
+	font-size: 1rem;
+	font-weight: 700;
+}
+.main__demo:not(:last-child){
+	margin-bottom: 0.625rem;
+}
+.main__form {
+
 }
 .form {
 }
@@ -116,11 +128,6 @@ h6 {
 }
 .form__line {
 }
-.form__error {
-	display: block;
-	font-size: 0.75rem;
-	font-weight: 400;
-	letter-spacing: 0em;
-	color: red;
-	margin-top: 0.3125rem;
+.form__field:not(:last-child){
+	margin-bottom: 0.625rem;
 }

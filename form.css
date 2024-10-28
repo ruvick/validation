@@ -2,14 +2,29 @@ input[type="text"],
 input[type="email"],
 input[type="tel"],
 textarea {
+	width: 100%;
+	outline: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 }
 
-input {
-	width: 100%;
-	background: transparent;
+input[type=radio] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	left: 0;
+	top: 0;
+	visibility: hidden;
+}
+
+/* Убираем стрелки у цифрового инпута */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	/* display: none; <- Crashes Chrome on hover */
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 textarea.input {
@@ -17,16 +32,6 @@ textarea.input {
 	padding: 0.3125rem 0.625rem;
 	width: 100%;
 }
-
-/* // Описываем focus label, подписи поля или блок
-// .form__line._focus .form__label {
-// 	background: red;
-// }
-
-// // Описываем ошибку label, подписи поля или блок
-// .form__line._error .form__label {
-// 	color: red;
-// } */
 
 /* Стилизация placeholder  */
 ::-webkit-input-placeholder {
@@ -49,25 +54,6 @@ textarea.input {
 :-ms-input-placeholder {
 	transition: all 0.3s ease 0s;
 	color: rgba(2, 0, 32, 0.3);
-}
-
-/* Убираем стрелки у цифрового инпута */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	/* display: none; <- Crashes Chrome on hover */
-	-webkit-appearance: none;
-	margin: 0;
-	/* <-- Apparently some margin are still there even though it's hidden */
-}
-
-input[type=radio] {
-	position: absolute;
-	width: 0;
-	height: 0;
-	opacity: 0;
-	left: 0;
-	top: 0;
-	visibility: hidden;
 }
 /* //======================================================================================================================================================== */
 
@@ -107,11 +93,6 @@ input[type=radio] {
 		color: red;
 	}
  }
- 
- .field__input:focus ~ .cut,
- .field__input:not(:placeholder-shown) ~ .cut {
-	transform: translateY(0.5rem);
- }
 
  .field__input:focus ~ .field__label,
  .field__input:not(:placeholder-shown) ~ .field__label {
@@ -119,11 +100,11 @@ input[type=radio] {
  }
  
  .field__input:not(:placeholder-shown) ~ .field__label {
-	/* // color: #808097; */
+	/* color: #808097; */
  }
  
  .field__input:focus ~ .field__label {
-	/* // color: #dc2f55; */
+	/* color: #dc2f55; */
  }
 
  /* Validation ======================================================================================================================== */
@@ -131,18 +112,37 @@ input[type=radio] {
 .field._form-error .field__input {
 	border: 0.0625rem solid red;
 }
- /* =================================================================================================================================== */
- .cut {
+.field .form__error {
+	display: block;
+	font-size: 0.625rem;
+	font-weight: 400;
+	letter-spacing: 0em;
+	color: red;
+	margin-top: 0.3125rem;
+}
+.field:before {
+	content: '';
 	position: absolute;
-	top: -0.1875rem;
-	left: 1.25rem;
-	transform: translateY(0);
-	transition: transform 200ms;
- }
- 
- .cut-short {
-	width: 3.125rem;
- }
+	top: 50%;
+	right: 0.8125rem;
+	transform: translateY(-50%);
+	width: 1.25rem;
+	height: 1.25rem;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+}
+.field._check-focus:before {
+	background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNSAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMS4zMzQgNi40NzAxNkwxMC4yMDY4IDE4TDMuMzMzOTggMTAuODc4NEw0LjkyNDYzIDkuNDA4MjRMMTAuMjA2OCAxNC44ODE2TDE5Ljc0MzMgNUwyMS4zMzQgNi40NzAxNloiIGZpbGw9IiMwMEJGMzYiLz4KPC9zdmc+Cg==');
+}
+
+.field._form-error:before {
+	top: 40%;
+	width: 1.125rem;
+	height: 1.125rem;
+	background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNSAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjMzMDUgMi41ODU5NEwxMi4zMzA1IDEwLjU4NTlMNC4zMzA1MiAyLjU4NTk0TDIuOTE2MDIgMy45OTk5NEwxMC45MTY1IDExLjk5OTlMMi45MTYwMiAxOS45OTk5TDQuMzMwNTIgMjEuNDEzOUwxMi4zMzA1IDEzLjQxMzlMMjAuMzMwNSAyMS40MTM5TDIxLjc0NDUgMTkuOTk5OUwxMy43NDQ1IDExLjk5OTlMMjEuNzQ0NSAzLjk5OTk0TDIwLjMzMDUgMi41ODU5NFoiIGZpbGw9InJlZCIvPgo8L3N2Zz4K');
+}
+ /* =================================================================================================================================== *
 
  /* .Input .input__viewpass {
 	position: absolute;
