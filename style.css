@@ -99,7 +99,7 @@ h6 {
 	text-transform: uppercase;
 }
 .main__title:not(:last-child){
-		margin-bottom: 0.9375rem;
+		margin-bottom: 3.4375rem;
 }
 .main__text {
 	font-size: 1rem;
@@ -214,4 +214,31 @@ h6 {
 }
 .descp-main__size-m:not(:last-child){
 	margin-bottom: 2.1875rem;
+}
+
+.main__code {
+	max-width: 700px;
+	width: 100%;
+	margin: 0px auto;
+	margin-top: 2.1875rem;
+}
+.code-main {
+
+}
+.code-main__title {
+	font-size: 1.625rem;
+	font-weight: 700;
+	text-align: center;
+}
+.code-main__title:not(:last-child){
+	margin-bottom: 1.875rem;
+}
+.code-main__item {
+}
+.code-main__item:not(:last-child){
+	margin-bottom: 1.25rem;
+}
+.item-code {
+}
+.item-code__title {
 }
