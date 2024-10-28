@@ -93,9 +93,10 @@ h6 {
 	padding: 0 0.625rem;
 }
 .main__title {
-	font-size: 36px;
+	font-size: 2.25rem;
 	font-weight: 700;
 	text-align: center;
+	text-transform: uppercase;
 }
 .main__title:not(:last-child){
 		margin-bottom: 0.9375rem;
@@ -104,8 +105,8 @@ h6 {
 	font-size: 1rem;
 	text-align: center;
 }
-.main__title:not(:last-child){
-	margin-bottom: 2.1875rem;
+.main__text:not(:last-child){
+	margin-bottom: 3.4375rem;
 }
 .main__inner {
 	max-width: 23.75rem;
@@ -115,6 +116,7 @@ h6 {
 .main__demo {
 	font-size: 1rem;
 	font-weight: 700;
+	text-transform: uppercase;
 }
 .main__demo:not(:last-child){
 	margin-bottom: 0.625rem;
@@ -130,4 +132,8 @@ h6 {
 }
 .form__field:not(:last-child){
 	margin-bottom: 0.625rem;
+}
+.form__btn {
+	display: flex;
+	width: 100%;
 }
