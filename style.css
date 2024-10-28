@@ -194,6 +194,9 @@ h6 {
 	background-color: grey;
 	overflow: hidden;
 }
+.descp-main__img:not(:last-child){
+	margin-bottom: 0.9375rem;
+}
 .descp-main__img img {
 	position: absolute;
 	top: 0;
