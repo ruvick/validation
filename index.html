@@ -146,14 +146,444 @@
 
 					<div class="code-main__item item-code">
 						<div class="item-code__title">Inputs Html</div>
+						<div class="item-code__descp">
+							<pre class="item-code__code">
+								<code class="html">
+    &lt;form action=&quot;#&quot; class=&quot;main__form form&quot;&gt;
+        &lt;div class=&quot;form__line&quot;&gt;
+            &lt;div class=&quot;form__field field&quot;&gt;
+                &lt;input id=&quot;input&quot; class=&quot;field__input&quot; name=&quot;form[]&quot; autocomplete=&quot;off&quot; type=&quot;text&quot; placeholder=&quot; &quot; 
+                    data-error=&quot;Заполните поле&quot; data-required=&quot;name&quot; data-validate&gt;
+                &lt;label for=&quot;input&quot; class=&quot;field__label&quot;&gt;Имя &lt;span&gt;*&lt;/span&gt;&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;form__field field&quot;&gt;
+                &lt;input id=&quot;input&quot; class=&quot;field__input&quot; name=&quot;form[]&quot; autocomplete=&quot;off&quot; type=&quot;text&quot; placeholder=&quot; &quot; 
+                    data-error=&quot;Заполните поле&quot; data-required=&quot;name&quot; data-validate&gt;
+                &lt;label for=&quot;input&quot; class=&quot;field__label&quot;&gt;Фамилия &lt;span&gt;*&lt;/span&gt;&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;form__field field&quot;&gt;
+                &lt;input id=&quot;input&quot; class=&quot;field__input&quot; name=&quot;tel&quot; autocomplete=&quot;off&quot; type=&quot;number&quot; placeholder=&quot; &quot; 
+                    data-error=&quot;Заполните поле&quot; data-required=&quot;tel&quot; data-validate&gt;
+                &lt;label for=&quot;input&quot; class=&quot;field__label&quot;&gt;Телефон &lt;span&gt;*&lt;/span&gt;&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;form__field field&quot;&gt;
+                &lt;input id=&quot;input&quot; class=&quot;field__input&quot; name=&quot;email&quot; autocomplete=&quot;off&quot; type=&quot;text&quot; placeholder=&quot; &quot;
+                    data-error=&quot;Неверный Email&quot; data-required=&quot;email&quot; data-validate&gt;
+                &lt;label for=&quot;input&quot; class=&quot;field__label&quot;&gt;Email &lt;span&gt;*&lt;/span&gt;&lt;/label&gt;
+            &lt;/div&gt;
+            &lt;label for=&quot;check-sd&quot; class=&quot;form__field checkbox&quot;&gt;
+                &lt;input id=&quot;check-sd&quot; data-error=&quot;Ошибка&quot; class=&quot;checkbox__input&quot; type=&quot;checkbox&quot; value=&quot;1&quot;
+                    name=&quot;form[]&quot; data-required=&quot;checkbox&quot;&gt;
+                &lt;span class=&quot;checkbox__text&quot;&gt;&lt;span&gt;Соглашаюсь на обработку
+                    &lt;a href=&quot;&quot;&gt;персональных данных&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;
+            &lt;/label&gt;
+            &lt;button type=&quot;submit&quot; class=&quot;form__btn btn&quot;&gt;Зарегистрироваться&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+	</code>
+							</pre>
+						</div>
 					</div>
 
 					<div class="code-main__item item-code">
 						<div class="item-code__title">Inputs Css</div>
+						<div class="item-code__descp">
+							<pre class="item-code__code">
+								<code class="css">
+.field {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+
+.field__input {
+	display: block;
+	margin: 0;
+	padding: 0px 2.4375rem 0 0.9375rem;
+	color: inherit;
+	width: 100%;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: inherit;
+	border: none;
+	color: #000;
+	transition: all 0.3s ease 0s;
+	height: 3.125rem;
+	border-radius: 0.1875rem;
+	background-color: rgba(2, 0, 32, 0.03);
+}
+
+@media (any-hover: hover) {
+	.field__input:hover { 
+		background-color: #02002026;
+	} 
+}
+
+.field__label {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	color: #65657b;
+	left: 1.25rem;
+	line-height: 0.875rem;
+	pointer-events: none;
+	position: absolute;
+	transform-origin: 0 50%;
+	transition: transform 200ms, color 200ms;
+	top: 1.25rem;
+}
+
+.field__input:focus ~ .field__label,
+.field__input:not(:placeholder-shown) ~ .field__label {
+	transform: translateY(-0.9375rem) translateX(-0.3125rem) scale(0.65);
+}
+
+.field._form-error .field__input {
+	border: 0.0625rem solid red;
+}
+
+.field .form__error {
+	display: block;
+	font-size: 0.625rem;
+	font-weight: 400;
+	letter-spacing: 0em;
+	color: red;
+	margin-top: 0.3125rem;
+}
+
+.field:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	right: 0.8125rem;
+	transform: translateY(-50%);
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.field._check-focus:before {
+	background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNSAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMS4zMzQgNi40NzAxNkwxMC4yMDY4IDE4TDMuMzMzOTggMTAuODc4NEw0LjkyNDYzIDkuNDA4MjRMMTAuMjA2OCAxNC44ODE2TDE5Ljc0MzMgNUwyMS4zMzQgNi40NzAxNloiIGZpbGw9IiMwMEJGMzYiLz4KPC9zdmc+Cg==');
+}
+
+.field._form-error:before {
+	top: 40%;
+	width: 1.125rem;
+	height: 1.125rem;
+}
+
+.field._form-error:before {
+		background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNSAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjMzMDUgMi41ODU5NEwxMi4zMzA1IDEwLjU4NTlMNC4zMzA1MiAyLjU4NTk0TDIuOTE2MDIgMy45OTk5NEwxMC45MTY1IDExLjk5OTlMMi45MTYwMiAxOS45OTk5TDQuMzMwNTIgMjEuNDEzOUwxMi4zMzA1IDEzLjQxMzlMMjAuMzMwNSAyMS40MTM5TDIxLjc0NDUgMTkuOTk5OUwxMy43NDQ1IDExLjk5OTlMMjEuNzQ0NSAzLjk5OTk0TDIwLjMzMDUgMi41ODU5NFoiIGZpbGw9InJlZCIvPg==');
+}
+.checkbox {
+	position: relative;
+	display: block;
+}
+
+.checkbox__input {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.checkbox__text {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	align-items: center;
+	position: relative;
+	font-size: 0.6875rem;
+	font-weight: 400;
+	line-height: 1.2857142857;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	color: #020020;
+	cursor: pointer;
+}
+
+.checkbox__text:before {
+	content: "";
+	align-self: flex-start;
+	margin: 0;
+	flex: 0 0 1.25rem;
+	left: 0;
+	top: 0;
+	width: 1.25rem;
+	height: 1.25rem;
+	background: 0 0;
+	border: .0625rem solid rgba(2, 0, 32, .3);
+	border-radius: .1875rem;
+}
+
+.checkbox__input:checked + .checkbox__text:before {
+	content: "\e90c";
+	font-size: .5rem;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #120b8d;
+	color: #fff;
+	font-family: icons;
+	font-style: normal;
+	font-weight: 400;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+}
+
+.checkbox__text span {
+	margin-left: .625rem;
+}
+
+.checkbox__text a {
+	font-size: 0.6875rem;
+	font-weight: 400;
+	line-height: 1.2857142857;
+	letter-spacing: 0;
+	color: #120b8d;
+	text-decoration: none;
+	transition: all .4s ease 0s;
+}
+
+.checkbox._form-error .checkbox__text:before {
+	border: 0.0625rem solid red;
+}
+
+.checkbox .form__error {
+	display: none;
+}
+
+.btn {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	padding: .90625rem 1.48125rem;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #fff;
+	background: #120b8d;
+	border-radius: .1875rem;
+	transition: all .4s ease 0s;
+}
+
+@media (any-hover: hover){
+		.btn:hover { 
+		opacity: 0.7;
+	} 
+}
+</code>
+							</pre>
+						</div>
 					</div>
 
 					<div class="code-main__item item-code">
 						<div class="item-code__title">Validation JavaScript</div>
+						<div class="item-code__descp">
+							<pre class="item-code__code">
+								<code class="javascript">
+document.addEventListener('DOMContentLoaded', function() {
+	formFieldsInit();
+	formSubmit(true);
+});
+
+function formFieldsInit() {
+document.body.addEventListener("focusin", function (e) {
+	const targetElement = e.target;
+	if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
+		if (targetElement.dataset.placeholder) {
+			targetElement.placeholder = '';
+		}
+		targetElement.classList.add('_form-focus');
+		targetElement.parentElement.classList.add('_form-focus');
+		formValidate.removeError(targetElement);
+	}
+});
+document.body.addEventListener("focusout", function (e) {
+	const targetElement = e.target;
+	if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
+		if (targetElement.dataset.placeholder) {
+			targetElement.placeholder = targetElement.dataset.placeholder;
+		}
+		targetElement.classList.remove('_form-focus');
+		targetElement.parentElement.classList.remove('_form-focus');
+		targetElement.parentElement.classList.add('_check-focus');
+
+		if (targetElement.hasAttribute('data-validate')) {
+			formValidate.validateInput(targetElement);
+		}
+	}
+});
+}
+
+let formValidate = {
+getErrors(form) {
+	let error = 0;
+	let formRequiredItems = form.querySelectorAll('*[data-required]');
+	if (formRequiredItems.length) {
+		formRequiredItems.forEach(formRequiredItem => {
+			if ((formRequiredItem.offsetParent !== null || formRequiredItem.tagName === "SELECT") && !formRequiredItem.disabled) {
+				error += this.validateInput(formRequiredItem);
+			}
+		});
+	}
+	return error;
+},
+validateInput(formRequiredItem) {
+	let error = 0;
+	if (formRequiredItem.dataset.required === "email") {
+		formRequiredItem.value = formRequiredItem.value.replace(" ", "");
+		if (this.emailTest(formRequiredItem)) {
+			this.addError(formRequiredItem);
+			error++;
+		} else {
+			this.removeError(formRequiredItem);
+		}
+	} else if (formRequiredItem.dataset.required === "name") {
+		formRequiredItem.value = formRequiredItem.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
+		if (formRequiredItem.value.trim().length < 3) {
+			this.addError(formRequiredItem);
+			error++;
+			formRequiredItem.parentElement.querySelector('.form__error').innerHTML = "Минимальная длинна 4 символа";
+		} else {
+			this.removeError(formRequiredItem);
+		}
+	} else if (formRequiredItem.dataset.required === "tel") {
+		if (formRequiredItem.value.trim().length < 10) {
+			this.addError(formRequiredItem);
+			error++;
+			formRequiredItem.parentElement.querySelector('.form__error').innerHTML = "Минимальная длинна 10 символов";
+		} else {
+			this.removeError(formRequiredItem);
+		}
+	} else if (formRequiredItem.type === "checkbox" && !formRequiredItem.checked) {
+		this.addError(formRequiredItem);
+		error++;
+	} else {
+		if (!formRequiredItem.value.trim()) {
+			this.addError(formRequiredItem);
+			error++;
+		} else {
+			this.removeError(formRequiredItem);
+		}
+	}
+	return error;
+},
+addError(formRequiredItem) {
+	formRequiredItem.classList.add('_form-error');
+	formRequiredItem.parentElement.classList.add('_form-error');
+	formRequiredItem.parentElement.classList.remove('_check-focus');
+	let inputError = formRequiredItem.parentElement.querySelector('.form__error');
+	if (inputError) formRequiredItem.parentElement.removeChild(inputError);
+	if (formRequiredItem.dataset.error) {
+		formRequiredItem.parentElement.insertAdjacentHTML('beforeend', `<span class="form__error">${formRequiredItem.dataset.error}</span>`);
+	}
+},
+removeError(formRequiredItem) {
+	formRequiredItem.classList.remove('_form-error');
+	formRequiredItem.parentElement.classList.remove('_form-error');
+	if (formRequiredItem.parentElement.querySelector('.form__error')) {
+		formRequiredItem.parentElement.removeChild(formRequiredItem.parentElement.querySelector('.form__error'));
+	}
+},
+formClean(form) {
+	form.reset();
+	setTimeout(() => {
+		let inputs = form.querySelectorAll('input,textarea');
+		for (let index = 0; index < inputs.length; index++) {
+			const el = inputs[index];
+			el.parentElement.classList.remove('_form-focus');
+			el.classList.remove('_form-focus');
+			formValidate.removeError(el);
+			el.value = el.dataset.placeholder;
+		}
+		let checkboxes = form.querySelectorAll('.checkbox__input');
+		if (checkboxes.length > 0) {
+			for (let index = 0; index < checkboxes.length; index++) {
+				const checkbox = checkboxes[index];
+				checkbox.checked = false;
+			}
+		}
+	}, 0);
+},
+emailTest(formRequiredItem) {
+	return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(formRequiredItem.value);
+}
+}
+
+document.addEventListener('input', function (e) {
+const input = e.target;
+if (input.dataset.required === "name") {
+	input.value = input.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
+}
+if (input.value.length > 50) {
+	input.value = input.value.slice(0, 50);
+}
+});
+
+function formSubmit(validate) {
+const forms = document.forms;
+if (forms.length) {
+	for (const form of forms) {
+		form.addEventListener('submit', function (e) {
+			const form = e.target;
+			formSubmitAction(form, e);
+		});
+		form.addEventListener('reset', function (e) {
+			const form = e.target;
+			formValidate.formClean(form);
+		});
+	}
+}
+async function formSubmitAction(form, e) {
+	const error = validate ? formValidate.getErrors(form) : 0;
+	if (error === 0) {
+		const popupMessage = form.dataset.popupMessage;
+		const ajax = form.hasAttribute('data-ajax');
+		if (ajax) {
+			e.preventDefault();
+			const formAction = form.getAttribute('action') ? form.getAttribute('action').trim() : '#';
+			const formMethod = form.getAttribute('method') ? form.getAttribute('method').trim() : 'GET';
+			const formData = new FormData(form);
+
+			form.classList.add('_sending');
+			const response = await fetch(formAction, {
+				method: formMethod,
+				body: formData
+			});
+			if (response.ok) {
+				let responseResult = await response.json();
+				form.classList.remove('_sending');
+				if (popupMessage) {
+					// Implement popup logic here
+				}
+				formValidate.formClean(form);
+			} else {
+				alert("Ошибка");
+				form.classList.remove('_sending');
+			}
+		}
+		if (form.hasAttribute('data-dev')) {
+			e.preventDefault();
+			if (popupMessage) {
+				// Implement popup logic here
+			}
+			formValidate.formClean(form);
+		}
+	} else {
+		e.preventDefault();
+		const formError = form.querySelector('._form-error');
+		if (formError && form.hasAttribute('data-goto-error')) {
+			// Implement gotoBlock logic here
+		}
+	}
+}
+}							
+</code>
+							</pre>
+						</div>
 					</div>
 
 				</div>

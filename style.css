@@ -145,7 +145,7 @@ h6 {
 }
 
 .main__descp {
-	max-width: 43.75rem;
+	max-width: 62.5rem;
 	width: 100%;
 	margin: 0px auto;
 }
@@ -217,7 +217,7 @@ h6 {
 }
 
 .main__code {
-	max-width: 700px;
+	max-width: 62.5rem;
 	width: 100%;
 	margin: 0px auto;
 	margin-top: 2.1875rem;
@@ -241,4 +241,27 @@ h6 {
 .item-code {
 }
 .item-code__title {
+	font-weight: 700;
+}
+.item-code__title:not(:last-child){
+	margin-bottom: 0.625rem;
+}
+
+.item-code__code {
+	background-color: rgba(2, 0, 32, 0.03);
+	border: 0.0625rem solid #ccc;
+	max-height: 34.375rem;
+	overflow: auto;
+}
+/* //======================================================================================================================================================== */
+
+pre code.hljs {
+	display: block;
+	overflow: visible !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
+.hljs {
+	background: #e8eaf1 !important;
+	color: #444;
 }
