@@ -1,197 +1,131 @@
-document.addEventListener('DOMContentLoaded', function() {
-		formFieldsInit();
-		formSubmit(true);
-	});
+document.addEventListener('DOMContentLoaded', () => {
+	formFieldsInit();
+	formSubmit(true);
+});
 
 function formFieldsInit() {
-	document.body.addEventListener("focusin", function (e) {
-		const targetElement = e.target;
-		if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
+	document.body.addEventListener("focusin", handleFocusIn);
+	document.body.addEventListener("focusout", handleFocusOut);
+}
+
+function handleFocusIn(e) {
+	const targetElement = e.target;
+	if (['INPUT', 'TEXTAREA'].includes(targetElement.tagName)) {
 			if (targetElement.dataset.placeholder) {
-				targetElement.placeholder = '';
+					targetElement.placeholder = '';
 			}
-			targetElement.classList.add('_form-focus');
-			targetElement.parentElement.classList.add('_form-focus');
+			toggleFocusClass(targetElement, true);
 			formValidate.removeError(targetElement);
-		}
-	});
-	document.body.addEventListener("focusout", function (e) {
-		const targetElement = e.target;
-		if ((targetElement.tagName === 'INPUT' || targetElement.tagName === 'TEXTAREA')) {
+	}
+}
+
+function handleFocusOut(e) {
+	const targetElement = e.target;
+	if (['INPUT', 'TEXTAREA'].includes(targetElement.tagName)) {
 			if (targetElement.dataset.placeholder) {
-				targetElement.placeholder = targetElement.dataset.placeholder;
+					targetElement.placeholder = targetElement.dataset.placeholder;
 			}
-			targetElement.classList.remove('_form-focus');
-			targetElement.parentElement.classList.remove('_form-focus');
+			toggleFocusClass(targetElement, false);
 			targetElement.parentElement.classList.add('_check-focus');
 
 			if (targetElement.hasAttribute('data-validate')) {
-				formValidate.validateInput(targetElement);
+					formValidate.validateInput(targetElement);
 			}
-		}
-	});
+	}
 }
 
-let formValidate = {
+function toggleFocusClass(element, isFocused) {
+	element.classList.toggle('_form-focus', isFocused);
+	element.parentElement.classList.toggle('_form-focus', isFocused);
+}
+
+const formValidate = {
 	getErrors(form) {
-		let error = 0;
-		let formRequiredItems = form.querySelectorAll('*[data-required]');
-		if (formRequiredItems.length) {
-			formRequiredItems.forEach(formRequiredItem => {
-				if ((formRequiredItem.offsetParent !== null || formRequiredItem.tagName === "SELECT") && !formRequiredItem.disabled) {
-					error += this.validateInput(formRequiredItem);
-				}
-			});
-		}
-		return error;
+			return Array.from(form.querySelectorAll('*[data-required]'))
+					.filter(item => (item.offsetParent !== null || item.tagName === "SELECT") && !item.disabled)
+					.reduce((errorCount, item) => errorCount + this.validateInput(item), 0);
 	},
-	validateInput(formRequiredItem) {
-		let error = 0;
-		if (formRequiredItem.dataset.required === "email") {
-			formRequiredItem.value = formRequiredItem.value.replace(" ", "");
-			if (this.emailTest(formRequiredItem)) {
-				this.addError(formRequiredItem);
-				error++;
+	validateInput(item) {
+			let error = 0;
+			const value = item.value.trim();
+			const type = item.dataset.required;
+
+			if (type === "email") {
+					item.value = value.replace(" ", "");
+					error += this.emailTest(item) ? this.addError(item) : this.removeError(item);
+			} else if (type === "name") {
+					item.value = value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
+					error += value.length < 3 ? this.addError(item, "Минимальная длинна 4 символа") : this.removeError(item);
+			} else if (type === "tel") {
+					error += value.length < 10 ? this.addError(item, "Минимальная длинна 10 символов") : this.removeError(item);
+			} else if (item.type === "checkbox" && !item.checked) {
+					error += this.addError(item);
 			} else {
-				this.removeError(formRequiredItem);
+					error += !value ? this.addError(item) : this.removeError(item);
 			}
-		} else if (formRequiredItem.dataset.required === "name") {
-			formRequiredItem.value = formRequiredItem.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
-			if (formRequiredItem.value.trim().length < 3) {
-				this.addError(formRequiredItem);
-				error++;
-				formRequiredItem.parentElement.querySelector('.form__error').innerHTML = "Минимальная длинна 4 символа";
-			} else {
-				this.removeError(formRequiredItem);
-			}
-		} else if (formRequiredItem.dataset.required === "tel") {
-			if (formRequiredItem.value.trim().length < 10) {
-				this.addError(formRequiredItem);
-				error++;
-				formRequiredItem.parentElement.querySelector('.form__error').innerHTML = "Минимальная длинна 10 символов";
-			} else {
-				this.removeError(formRequiredItem);
-			}
-		} else if (formRequiredItem.type === "checkbox" && !formRequiredItem.checked) {
-			this.addError(formRequiredItem);
-			error++;
-		} else {
-			if (!formRequiredItem.value.trim()) {
-				this.addError(formRequiredItem);
-				error++;
-			} else {
-				this.removeError(formRequiredItem);
-			}
-		}
-		return error;
+			return error;
 	},
-	addError(formRequiredItem) {
-		formRequiredItem.classList.add('_form-error');
-		formRequiredItem.parentElement.classList.add('_form-error');
-		formRequiredItem.parentElement.classList.remove('_check-focus');
-		let inputError = formRequiredItem.parentElement.querySelector('.form__error');
-		if (inputError) formRequiredItem.parentElement.removeChild(inputError);
-		if (formRequiredItem.dataset.error) {
-			formRequiredItem.parentElement.insertAdjacentHTML('beforeend', `<span class="form__error">${formRequiredItem.dataset.error}</span>`);
-		}
+	addError(item, message = item.dataset.error) {
+			item.classList.add('_form-error');
+			item.parentElement.classList.add('_form-error');
+			item.parentElement.classList.remove('_check-focus');
+			const errorElement = item.parentElement.querySelector('.form__error');
+			if (errorElement) errorElement.remove();
+			if (message) {
+					item.parentElement.insertAdjacentHTML('beforeend', `<span class="form__error">${message}</span>`);
+			}
+			return 1;
 	},
-	removeError(formRequiredItem) {
-		formRequiredItem.classList.remove('_form-error');
-		formRequiredItem.parentElement.classList.remove('_form-error');
-		if (formRequiredItem.parentElement.querySelector('.form__error')) {
-			formRequiredItem.parentElement.removeChild(formRequiredItem.parentElement.querySelector('.form__error'));
-		}
+	removeError(item) {
+			item.classList.remove('_form-error');
+			item.parentElement.classList.remove('_form-error');
+			const errorElement = item.parentElement.querySelector('.form__error');
+			if (errorElement) errorElement.remove();
+			return 0;
 	},
 	formClean(form) {
-		form.reset();
-		setTimeout(() => {
-			let inputs = form.querySelectorAll('input,textarea');
-			for (let index = 0; index < inputs.length; index++) {
-				const el = inputs[index];
-				el.parentElement.classList.remove('_form-focus');
-				el.classList.remove('_form-focus');
-				formValidate.removeError(el);
-				el.value = el.dataset.placeholder;
-			}
-			let checkboxes = form.querySelectorAll('.checkbox__input');
-			if (checkboxes.length > 0) {
-				for (let index = 0; index < checkboxes.length; index++) {
-					const checkbox = checkboxes[index];
-					checkbox.checked = false;
-				}
-			}
-		}, 0);
+			form.reset();
+			setTimeout(() => {
+					form.querySelectorAll('input,textarea').forEach(el => {
+							el.parentElement.classList.remove('_form-focus');
+							el.classList.remove('_form-focus');
+							this.removeError(el);
+							el.value = el.dataset.placeholder || '';
+					});
+					form.querySelectorAll('.checkbox__input').forEach(checkbox => {
+							checkbox.checked = false;
+					});
+			}, 0);
 	},
-	emailTest(formRequiredItem) {
-		return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(formRequiredItem.value);
+	emailTest(item) {
+			return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,8})+$/.test(item.value);
 	}
-}
+};
 
-document.addEventListener('input', function (e) {
+document.addEventListener('input', (e) => {
 	const input = e.target;
 	if (input.dataset.required === "name") {
-		input.value = input.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
+			input.value = input.value.replace(/[^А-Яа-яёA-Za-z-]/g, '');
 	}
-	if (input.value.length > 50) {
-		input.value = input.value.slice(0, 50);
+	if (input.value.length > 350) {
+			input.value = input.value.slice(0, 350);
 	}
 });
 
 function formSubmit(validate) {
-	const forms = document.forms;
-	if (forms.length) {
-		for (const form of forms) {
-			form.addEventListener('submit', function (e) {
-				const form = e.target;
-				formSubmitAction(form, e);
-			});
-			form.addEventListener('reset', function (e) {
-				const form = e.target;
-				formValidate.formClean(form);
-			});
-		}
-	}
-	async function formSubmitAction(form, e) {
-		const error = validate ? formValidate.getErrors(form) : 0;
-		if (error === 0) {
-			const popupMessage = form.dataset.popupMessage;
-			const ajax = form.hasAttribute('data-ajax');
-			if (ajax) {
-				e.preventDefault();
-				const formAction = form.getAttribute('action') ? form.getAttribute('action').trim() : '#';
-				const formMethod = form.getAttribute('method') ? form.getAttribute('method').trim() : 'GET';
-				const formData = new FormData(form);
+	Array.from(document.forms).forEach(form => {
+			form.addEventListener('submit', (e) => formSubmitAction(form, e, validate));
+			form.addEventListener('reset', () => formValidate.formClean(form));
+	});
+}
 
-				form.classList.add('_sending');
-				const response = await fetch(formAction, {
-					method: formMethod,
-					body: formData
-				});
-				if (response.ok) {
-					let responseResult = await response.json();
-					form.classList.remove('_sending');
-					if (popupMessage) {
-						// Implement popup logic here
-					}
-					formValidate.formClean(form);
-				} else {
-					alert("Ошибка");
-					form.classList.remove('_sending');
-				}
-			}
-			if (form.hasAttribute('data-dev')) {
-				e.preventDefault();
-				if (popupMessage) {
-					// Implement popup logic here
-				}
-				formValidate.formClean(form);
-			}
-		} else {
+async function formSubmitAction(form, e, validate) {
+	const error = validate ? formValidate.getErrors(form) : 0;
+	if (error !== 0) {
 			e.preventDefault();
 			const formError = form.querySelector('._form-error');
 			if (formError && form.hasAttribute('data-goto-error')) {
-				// Implement gotoBlock logic here
+					// Implement gotoBlock logic here
 			}
-		}
 	}
 }

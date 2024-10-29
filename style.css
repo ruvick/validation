@@ -211,6 +211,7 @@ h6 {
 	max-width: 46.875rem;
 	width: 100%;
 	margin: 0px auto;
+	margin-top: -0.9375rem;
 }
 .descp-main__size-m:not(:last-child){
 	margin-bottom: 2.1875rem;
@@ -252,6 +253,15 @@ h6 {
 	border: 0.0625rem solid #ccc;
 	max-height: 34.375rem;
 	overflow: auto;
+}
+.descp-main__title-m {
+	font-weight: 700;
+}
+.descp-main__title-m:not(:last-child){
+	margin-bottom: 0.9375rem;
+}
+.title-center {
+	text-align: center;
 }
 /* //======================================================================================================================================================== */
 
